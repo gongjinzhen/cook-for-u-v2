@@ -10,7 +10,7 @@ import Orders from './pages/Orders';
 import Register from './pages/Register';
 import EditRecipe from './pages/EditRecipe';
 import Stats from './pages/Stats';
-
+console.log("测试Git提交");
 export const UserContext = React.createContext();
 export const ToastContext = React.createContext();
 
