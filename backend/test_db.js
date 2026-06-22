@@ -1,0 +1,1 @@
+var dbm = require('./db'); dbm.initDB().then(function(){ console.log('init ok'); var users = dbm.prepare('SELECT count(*) as c FROM users').all(); console.log('users count:', JSON.stringify(users)); process.exit(0); }).catch(function(e){ console.log('err:', e.message); process.exit(1); });

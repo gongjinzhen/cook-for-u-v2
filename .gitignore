@@ -1,0 +1,9 @@
+node_modules
+.vite
+*.log
+*.bak
+*.bak2
+*.bak3
+backend/cook.db
+uploads/*
+!.gitignore
