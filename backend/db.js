@@ -58,11 +58,18 @@ var dbModule = {
 
 async function initDB() {
   var SQL = await initSqlJs();
-  if (fs.existsSync(DB_PATH)) { db = new SQL.Database(fs.readFileSync(DB_PATH)); }
+  var migration = false; if (fs.existsSync(DB_PATH)) { db = new SQL.Database(fs.readFileSync(DB_PATH)); }
   else { db = new SQL.Database(); }
   
   db.run('CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT UNIQUE, password TEXT, nickname TEXT DEFAULT "", avatar TEXT DEFAULT "", role TEXT DEFAULT "chef", created_at DATETIME DEFAULT CURRENT_TIMESTAMP)');
   db.run('CREATE TABLE IF NOT EXISTS recipes (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER, name TEXT, cover TEXT DEFAULT "", tags TEXT DEFAULT "", nutrition TEXT DEFAULT "", ingredients TEXT DEFAULT "", steps TEXT DEFAULT "", is_signature INTEGER DEFAULT 0, status TEXT DEFAULT "active", created_at DATETIME DEFAULT CURRENT_TIMESTAMP, updated_at DATETIME DEFAULT CURRENT_TIMESTAMP)');
+  var cols = db.exec("PRAGMA table_info(recipes)"); var colNames = cols[0] ? cols[0].values.map(function(v) { return v[1]; }) : [];
+  if (colNames.indexOf('calories') === -1) { db.run("ALTER TABLE recipes ADD COLUMN calories INTEGER DEFAULT 0"); migration = true; }
+  if (colNames.indexOf('cook_time') === -1) { db.run("ALTER TABLE recipes ADD COLUMN cook_time TEXT DEFAULT ''"); migration = true; }
+  if (colNames.indexOf('flavor') === -1) { db.run("ALTER TABLE recipes ADD COLUMN flavor TEXT DEFAULT ''"); migration = true; }
+    var cols2 = db.exec("PRAGMA table_info(ratings)"); var colNames2 = cols2[0] ? cols2[0].values.map(function(v) { return v[1]; }) : [];
+  if (colNames2.indexOf("user_id") === -1) { db.run("ALTER TABLE ratings ADD COLUMN user_id INTEGER DEFAULT 0"); migration = true; }
+  if (migration) save();
   db.run('CREATE TABLE IF NOT EXISTS orders (id INTEGER PRIMARY KEY AUTOINCREMENT, recipe_id INTEGER, orderer_id INTEGER, chef_id INTEGER, status TEXT DEFAULT "pending", note TEXT DEFAULT "", created_at DATETIME DEFAULT CURRENT_TIMESTAMP, completed_at DATETIME)');
   db.run('CREATE TABLE IF NOT EXISTS ratings (id INTEGER PRIMARY KEY AUTOINCREMENT, order_id INTEGER UNIQUE, recipe_id INTEGER, score INTEGER, comment TEXT DEFAULT "", created_at DATETIME DEFAULT CURRENT_TIMESTAMP)');
   

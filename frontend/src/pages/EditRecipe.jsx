@@ -9,7 +9,7 @@ export default function EditRecipe() {
   const showToast = useContext(ToastContext);
   const navigate = useNavigate();
   const fileRef = useRef();
-  const [form, setForm] = useState({ name: '', nutrition: '', tags: '', ingredients: '', steps: '' });
+  const [form, setForm] = useState({ name: '', nutrition: '', tags: '', calories: '', cook_time: '', flavor: '', ingredients: '', steps: '' });
   const [cover, setCover] = useState(null);
   const [preview, setPreview] = useState('');
   const [loading, setLoading] = useState(true);
@@ -18,7 +18,7 @@ export default function EditRecipe() {
   useEffect(() => {
     getRecipe(id).then(r => {
       const d = r.data;
-      setForm({ name: d.name, nutrition: d.nutrition || '', tags: d.tags || '', ingredients: d.ingredients || '', steps: d.steps || '' });
+      setForm({ name: d.name, nutrition: d.nutrition || '', tags: d.tags || '', calories: d.calories || '', cook_time: d.cook_time || '', flavor: d.flavor || '', ingredients: d.ingredients || '', steps: d.steps || '' });
       setPreview(d.cover || '');
       setLoading(false);
     }).catch(() => { showToast('加载失败', 'error'); navigate('/recipes'); });
@@ -36,6 +36,9 @@ export default function EditRecipe() {
       const fd = new FormData();
       fd.append('name', form.name); fd.append('nutrition', form.nutrition); fd.append('tags', form.tags);
       fd.append('ingredients', form.ingredients); fd.append('steps', form.steps);
+      fd.append('calories', form.calories);
+      fd.append('cook_time', form.cook_time);
+      fd.append('flavor', form.flavor);
       if (cover) fd.append('cover', cover);
       await updateRecipe(id, fd);
       showToast('更新成功！');
@@ -65,6 +68,18 @@ export default function EditRecipe() {
             <option value="light">清淡</option><option value="heavy">重口味</option><option value="protein">高蛋白</option>
             <option value="lowcal">低卡</option><option value="soup">汤类</option><option value="quick">快手菜</option>
           </select>
+        </div>
+        <div className="form-group">
+          <label>热量（千卡）</label>
+          <input className="input" type="number" value={form.calories} onChange={e => setForm(f => ({ ...f, calories: e.target.value }))} placeholder="例如：250" min="0" />
+        </div>
+        <div className="form-group">
+          <label>做菜总时间</label>
+          <input className="input" value={form.cook_time} onChange={e => setForm(f => ({ ...f, cook_time: e.target.value }))} placeholder="例如：30分钟" />
+        </div>
+        <div className="form-group">
+          <label>口味</label>
+          <input className="input" value={form.flavor} onChange={e => setForm(f => ({ ...f, flavor: e.target.value }))} placeholder="例如：酸甜、麻辣、清淡" />
         </div>
         <div className="form-group"><label>食材清单</label><textarea className="input" value={form.ingredients} onChange={e => setForm(f => ({ ...f, ingredients: e.target.value }))} style={{ minHeight: 100 }} /></div>
         <div className="form-group"><label>烹饪步骤</label><textarea className="input" value={form.steps} onChange={e => setForm(f => ({ ...f, steps: e.target.value }))} style={{ minHeight: 120 }} /></div>

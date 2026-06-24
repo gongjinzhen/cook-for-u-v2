@@ -60,6 +60,23 @@ export default function RecipeDetail() {
         {recipe.nutrition && <span>{({ light: '清淡', heavy: '重口味', protein: '高蛋白', lowcal: '低卡', soup: '汤类', quick: '快手菜' }[recipe.nutrition] || recipe.nutrition)}</span>}
       </div>
 
+      <div className="card" style={{ display: 'flex', gap: 16, padding: '12px 16px', marginBottom: 16, fontSize: 13 }}>
+        <div style={{ textAlign: 'center', flex: 1 }}>
+          <div style={{ fontSize: 20, fontWeight: 700, color: 'var(--primary)' }}>{recipe.calories || 0}</div>
+          <div style={{ color: 'var(--text-light)', fontSize: 12 }}>🔥 热量（千卡）</div>
+        </div>
+        <div style={{ width: 1, background: 'var(--border)' }} />
+        <div style={{ textAlign: 'center', flex: 1 }}>
+          <div style={{ fontSize: 20, fontWeight: 700, color: 'var(--primary)' }}>{recipe.cook_time || '—'}</div>
+          <div style={{ color: 'var(--text-light)', fontSize: 12 }}>⏱️ 总时间</div>
+        </div>
+        <div style={{ width: 1, background: 'var(--border)' }} />
+        <div style={{ textAlign: 'center', flex: 1 }}>
+          <div style={{ fontSize: 20, fontWeight: 700, color: 'var(--primary)' }}>{recipe.flavor || '—'}</div>
+          <div style={{ color: 'var(--text-light)', fontSize: 12 }}>U0001f445 口味</div>
+        </div>
+      </div>
+
       {isFoodie && (
         <button className="btn btn-primary" style={{ width: '100%', justifyContent: 'center', marginBottom: 20 }} onClick={handleOrder} disabled={ordering}>
           <ShoppingCart size={18} /> {ordering ? '点菜中...' : '我想吃这个！'}

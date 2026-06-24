@@ -7,7 +7,7 @@ export default defineConfig({
     port: 5174,
     proxy: {
       '/api': 'http://localhost:3004',
-      '/uploads': 'http://localhost:3001'
+      '/uploads': 'http://localhost:3004'
     }
   }
 });

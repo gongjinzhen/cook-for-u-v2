@@ -1,4 +1,4 @@
-* { margin: 0; padding: 0; box-sizing: border-box; }
+﻿* { margin: 0; padding: 0; box-sizing: border-box; }
 :root {
   --primary: #e74c3c; --primary-light: #fadbd8;
   --secondary: #e67e22; --bg: #fef9f7;
@@ -51,7 +51,7 @@ label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px; c
 .toast.error { background: var(--primary); }
 @keyframes slideDown { from { opacity: 0; transform: translateX(-50%) translateY(-20px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
 
-.nav { position: fixed; bottom: 0; left: 0; right: 0; background: var(--card); border-top: 1px solid var(--border); display: flex; justify-content: space-around; padding: 8px 0; max-width: 480px; margin: 0 auto; z-index: 100; }
+.nav { position: fixed; bottom: 0; left: 0; right: 0; background: var(--card); border-top: 1px solid var(--border); display: flex; justify-content: space-around; padding: 8px 0; max-width: 480px; margin: 0 auto; z-index: 100; border-radius: 10px 10px 0 0; }
 .nav a { display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 11px; color: var(--text-light); padding: 6px 12px; border-radius: 8px; transition: all 0.2s; }
 .nav a.active { color: var(--primary); background: var(--primary-light); }
 .nav a svg { width: 22px; height: 22px; }

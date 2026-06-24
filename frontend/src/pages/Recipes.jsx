@@ -73,6 +73,7 @@ export default function Recipes() {
                   <span>{r.nutrition ? ({ light: '清淡', heavy: '重口味', protein: '高蛋白', lowcal: '低卡', soup: '汤类', quick: '快手菜' }[r.nutrition] || r.nutrition) : ''}</span>
                   <span><Star size={12} /> {Number(r.avg_score).toFixed(1)}</span>
                   <span>已做 {r.order_count || 0} 次</span>
+                  <span>🔥 {r.calories || 0}千卡</span>
                 </div>
                 {!isChef && <button className="btn btn-sm" style={{ background: 'var(--primary)', color: '#fff', border: 'none', borderRadius: 6, width: '100%', marginTop: 8, fontWeight: 600, cursor: 'pointer', fontSize: 12 }} onClick={(e) => handleOrder(r, e)}>点单</button>}
               </div>

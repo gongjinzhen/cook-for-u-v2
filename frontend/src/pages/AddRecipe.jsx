@@ -8,7 +8,7 @@ export default function AddRecipe() {
   const showToast = useContext(ToastContext);
   const navigate = useNavigate();
   const fileRef = useRef();
-  const [form, setForm] = useState({ name: '', nutrition: '', tags: '', ingredients: '', steps: '' });
+  const [form, setForm] = useState({ name: '', nutrition: '', tags: '', calories: '', cook_time: '', flavor: '', ingredients: '', steps: '' });
   const [cover, setCover] = useState(null);
   const [preview, setPreview] = useState('');
   const [loading, setLoading] = useState(false);
@@ -30,6 +30,9 @@ export default function AddRecipe() {
       fd.append('tags', form.tags);
       fd.append('ingredients', form.ingredients);
       fd.append('steps', form.steps);
+      fd.append('calories', form.calories);
+      fd.append('cook_time', form.cook_time);
+      fd.append('flavor', form.flavor);
       if (cover) fd.append('cover', cover);
       const res = await createRecipe(fd);
       showToast('添加成功！');
@@ -63,6 +66,18 @@ export default function AddRecipe() {
             <option value="light">清淡</option><option value="heavy">重口味</option><option value="protein">高蛋白</option>
             <option value="lowcal">低卡</option><option value="soup">汤类</option><option value="quick">快手菜</option>
           </select>
+        </div>
+        <div className="form-group">
+          <label>热量（千卡）</label>
+          <input className="input" type="number" value={form.calories} onChange={e => handleChange('calories', e.target.value)} placeholder="例如：250" min="0" />
+        </div>
+        <div className="form-group">
+          <label>做菜总时间</label>
+          <input className="input" value={form.cook_time} onChange={e => handleChange('cook_time', e.target.value)} placeholder="例如：30分钟" />
+        </div>
+        <div className="form-group">
+          <label>口味</label>
+          <input className="input" value={form.flavor} onChange={e => handleChange('flavor', e.target.value)} placeholder="例如：酸甜、麻辣、清淡" />
         </div>
         <div className="form-group">
           <label>食材清单 (每行一种)</label>
